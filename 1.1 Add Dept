@@ -1,0 +1,128 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using NUnit.Framework;
+
+//Test to make sure Selenium works;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Support.UI;
+
+//Add Folders to Access Shared Classes within them
+using BlueSource_Selenium_Test.CoreFunctions;
+
+namespace BlueSource_Selenium_Test.Tests
+{
+    class AddDepartmentAction : NavBarActions
+    {
+        //Can't put a class in a method, so we had to comment it out
+        //public void ClickDepartmentAction()
+        //{
+            [TestFixture]
+            public class AddingDepartments
+            {
+                //This instantiates a new instance of NavBarActions and 
+                //allows us to call all of the methods used in that class
+                //and in that solution
+                NavBarActions nba = new NavBarActions();
+
+                [TestFixtureTearDown]
+                public void LogoutOfBlueSource()
+                {
+                    nba.Logout();
+                }
+
+                [SetUp]
+                public void GetToDepartmentScreen()
+                {
+                    nba.Launch();
+                    System.Threading.Thread.Sleep(1000);
+
+                    nba.LoginAction();
+                    System.Threading.Thread.Sleep(1000);
+
+                    nba.ClickAdminLink();
+                    System.Threading.Thread.Sleep(500);
+
+                    nba.ClickDepartmentLink();
+                    //Navigates to the Create a Department Page
+                }
+
+                [TearDown]
+                public void CreateDepartment()
+                {
+                    //Creates the Department by clicking the Create Department Button
+                    //browser.FindElement(By.Name("commit")).Click();
+                    browser.FindElement(By.XPath("//*[@id='new_department']/div[6]/input")).Click();
+                    //Alternate URL To use if Commit Button Continues to Malfunction
+                    //https://bluesourcestaging.herokuapp.com/departments/new
+                    
+                    //Deletes the Department that was just made
+                    //8/27/15 Continues to Fail Test because
+                    //SendKeys gets rid of the Dialog Box
+                    //nba.KillDept();
+
+                    nba.Logout();
+
+                }
+
+                #region Add 1st Test Department
+                [Test]
+                public void AddDepartment1()
+                {
+                    //This is how to call a class from another .cs file
+                    //Type the name of the CLASS you're looking for
+                    //Then type the name you're going to use here
+                    //set it equal to a new instance of that CLASS
+                    //This is known as instantiating an object (THEY USED TO BE HERE; I MOVED THEM)\
+                    System.Threading.Thread.Sleep(3000);
+                    //browser.FindElement(By.CssSelector("#content > a")).Click();
+                    browser.FindElement(By.XPath("//*[@id='content']/a")).Click();
+                    System.Threading.Thread.Sleep(2000);
+                    browser.FindElement(By.Name("department[name]")).Click();
+                    browser.FindElement(By.Name("department[name]")).SendKeys("TEST Old-Time Western");
+                }
+                #endregion
+
+                #region Add 2nd Test Department
+                [Test]
+                public void AddDepartment2()
+                {
+                    System.Threading.Thread.Sleep(3000);
+                    browser.FindElement(By.XPath("//*[@id='content']/a")).Click();
+                    System.Threading.Thread.Sleep(2000);
+                    browser.FindElement(By.Name("department[name]")).Click();
+                    browser.FindElement(By.Name("department[name]")).SendKeys("TEST Classical Modern");
+                }
+                #endregion
+
+                #region Add 3rd Test Department
+                [Test]
+                public void AddDepartment3()
+                {
+                    System.Threading.Thread.Sleep(3000);
+                    browser.FindElement(By.XPath("//*[@id='content']/a")).Click();
+                    System.Threading.Thread.Sleep(2000);
+                    browser.FindElement(By.Name("department[name]")).Click();
+                    browser.FindElement(By.Name("department[name]")).SendKeys("TEST Bowser People");
+                }
+                #endregion
+
+                #region Add 4th Test Department
+                [Test]
+                public void AddDepartment4()
+                {
+                    System.Threading.Thread.Sleep(3000);
+                    browser.FindElement(By.XPath("//*[@id='content']/a")).Click();
+                    System.Threading.Thread.Sleep(2000);
+                    browser.FindElement(By.Name("department[name]")).Click();
+                    browser.FindElement(By.Name("department[name]")).SendKeys("TEST Symphony Players");
+                }
+                #endregion
+        }
+    }
+}
