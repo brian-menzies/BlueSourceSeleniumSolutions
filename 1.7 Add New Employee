@@ -1,0 +1,87 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using NUnit.Framework;
+
+//Test to make sure Selenium works;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Support.UI;
+
+//Add Folders to Access Shared Classes within them
+using BlueSource_Selenium_Test.CoreFunctions;
+
+namespace BlueSource_Selenium_Test.Tests
+{
+    class AddNewEmployee : NavBarActions
+    {
+        [TestFixture]
+        public class RunningTests
+        {
+            public string emp_user = "employee_username";
+            public string emp_first = "employee_first_name";
+            public string emp_last = "employee_last_name";
+            NavBarActions nba = new NavBarActions();
+
+
+            [TestFixtureTearDown]
+            public void DeleteEmployee()
+            {
+                //Haven't found a way to remove an employee *yet*
+            }
+
+            [SetUp]
+            public void Initialize()
+            {
+                nba.Launch();
+                System.Threading.Thread.Sleep(1000);
+
+                nba.LoginAction();
+                System.Threading.Thread.Sleep(1000);
+
+                nba.ClickEmployeesLink();
+                System.Threading.Thread.Sleep(500);
+
+                //Clicks the Add Button at the top of Employees Landing Page
+                browser.FindElement(By.CssSelector("#all-content > div.header-btn-section > div > div:nth-child(3) > button")).Click();
+            }
+
+            [TearDown]
+            public void Cleanup()
+            {
+                //Clicks the Create Employee Button at Bottom of Form
+                //browser.FindElement(By.CssSelector("#new_employee > div.form-group.modal-footer > input")).Click();
+                //nba.CheckExistance();
+                System.Threading.Thread.Sleep(2500);
+                //nba.Logout();
+            }
+
+            [Test]
+            public void AddEmployee1()
+            {
+                //Lines go BSUsername, First Name, then Last Name
+                //System.Threading.Thread.Sleep(5000);
+
+                //CssSelector, XPath, and ID didn't work. It said it wasn't visible. 
+                //Turns out CSS Didn't work because of a rogue # in the declaration
+                //browser.FindElement(By.CssSelector("#employee_username")).Click();
+                //browser.FindElement(By.XPath("//*[@id='employee_username']")).Click();
+                //browser.FindElement(By.Id(emp_user)).Click();
+                System.Threading.Thread.Sleep(2500);
+                browser.FindElement(By.Id("employee_username")).SendKeys("Test_testerperson");
+                browser.FindElement(By.Id(emp_first)).Click();
+                System.Threading.Thread.Sleep(2500);
+                browser.FindElement(By.Id(emp_first)).SendKeys("Test");
+                System.Threading.Thread.Sleep(1500);
+                browser.FindElement(By.Id(emp_last)).Click();
+                System.Threading.Thread.Sleep(2500);
+                browser.FindElement(By.Id(emp_last)).SendKeys("Testersonxvi");
+                System.Threading.Thread.Sleep(1500);
+            }
+        }
+    }
+}
