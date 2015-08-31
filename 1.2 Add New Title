@@ -1,0 +1,106 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using NUnit.Framework;
+
+//Test to make sure Selenium works;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Support.UI;
+
+//Add Folders to Access Shared Classes within them
+using BlueSource_Selenium_Test.CoreFunctions;
+
+namespace BlueSource_Selenium_Test
+{
+    //This extends the class into NavBarActions and 
+    //allows us to reference things inside of that
+    //solution
+    class AddTitlesAction : NavBarActions
+    {
+        [TestFixture]
+        public class AddingTitles
+        {
+            //This is declared outside of everything so 
+            //that all methods can access it
+            NavBarActions nba = new NavBarActions();
+
+            [SetUp]
+            public void GoToTitlesScreen()
+            {
+                nba.Launch();
+                System.Threading.Thread.Sleep(1000);
+
+                nba.LoginAction();
+                System.Threading.Thread.Sleep(1000);
+
+                nba.ClickAdminLink();
+                System.Threading.Thread.Sleep(500);
+
+                nba.ClickTitlesLink();
+                System.Threading.Thread.Sleep(5000);
+
+                //browser.FindElement(By.CssSelector(ClickGenericLink)).Click();
+                
+                //Clicks New Title Link
+                browser.FindElement(By.XPath("//*[@id='content']/a")).Click();
+                System.Threading.Thread.Sleep(3000);
+
+
+                //browser.FindElement(By.LinkText("New Title")).Click();
+                //System.Threading.Thread.Sleep(1000);
+
+                //browser.FindElement(By.CssSelector("#content > a")).Click();
+                //Syst`em.Threading.Thread.Sleep(1000);
+
+                //Clicks the Dialog Box to Input the 
+                //New Title Name, which will be handled
+                //by the method(s) below
+                browser.FindElement(By.Id("title_name")).Click();
+                System.Threading.Thread.Sleep(1000);
+            }
+
+            [TearDown]
+            public void FinalActions()
+            {
+                //Clicks the Commit button which makes it permanent
+                browser.FindElement(By.ClassName("btn-primary")).Click();
+
+                //Checks if it alredy exists or if it was created
+                nba.CheckExistance();
+
+                //Logs out, Clears Cookies, and Quits browser
+                nba.Logout();
+            }
+
+            [Test]
+            public void AddingTitle1()
+            {
+                //Sends the name of the new title to the dialog box and fills it out
+                browser.FindElement(By.Id("title_name")).SendKeys("TEST Regional HP Director");
+            }
+
+            [Test]
+            public void AddingTitle2()
+            {
+                browser.FindElement(By.Id("title_name")).SendKeys("TEST UFT Master");
+            }
+
+            [Test]
+            public void AddingTitle3()
+            {
+                browser.FindElement(By.Id("title_name")).SendKeys("TEST Coding Expert I");
+            }
+
+            [Test]
+            public void AddingTitle4()
+            {
+                browser.FindElement(By.Id("title_name")).SendKeys("TEST Coding Expert II");
+            }
+        }
+    }
+}
