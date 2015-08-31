@@ -1,0 +1,165 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Selenium;
+using System.Windows.Forms;
+using NUnit.Framework;
+
+
+//Associating Selenium with Visual Studio
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Support.UI;
+//End of Test;
+
+
+namespace BlueSource_Selenium_Test.CoreFunctions
+{
+    class NavBarActions
+    {
+        //Declare the variable outside the method, allowing it to be passed elsewhere
+        public static IWebDriver browser;
+        public static string ClickGenericLink = @"#content > a";
+
+        //Things to pass to other Solutions and Shortcut Variables
+        public string emp_user = "employee_username";
+        public string emp_pass = "employee_password";
+        public string admin_user = "company.admin";
+        public string admin_pass = "test";
+        public string submit = "btn-primary";
+
+        public static void Main(string[] args)
+        { }
+
+
+        public void Launch()
+        {
+            browser = new FirefoxDriver();
+            browser.Manage().Cookies.DeleteAllCookies();
+            browser.Navigate().GoToUrl("https://bluesourcestaging.herokuapp.com/");
+        }
+
+        public void LoginAction()
+        {
+            //OpenBroswerNavigate OpenFirefox = new OpenBroswerNavigate();
+            //OpenFirefox.Launch();
+
+            //Fill in Username Section
+            browser.FindElement(By.Id(emp_user)).Click();
+            browser.FindElement(By.Id(emp_user)).SendKeys(admin_user);
+
+            //Fill in Password Section
+            browser.FindElement(By.Id(emp_pass)).Click();
+            browser.FindElement(By.Id(emp_pass)).SendKeys(admin_pass);
+
+            //Click Submit Button
+            browser.FindElement(By.ClassName(submit)).Click();
+        }
+
+        #region Admin Dropdown
+        public void ClickAdminLink()
+        {
+            browser.FindElement(By.XPath("/html/body/header/div/nav/ul/li[1]/a")).Click();
+        }
+
+        public void ClickDepartmentLink()
+        {
+            browser.FindElement(By.XPath("/html/body/header/div/nav/ul/li[1]/ul/li/a[1]")).Click();
+        }
+
+        public void ClickTitlesLink()
+        {
+            browser.FindElement(By.CssSelector("body > header > div > nav > ul > li.dropdown.open > ul > li > a:nth-child(2)")).Click();
+        }
+
+        #endregion
+
+        #region Employees Link
+        public void ClickEmployeesLink()
+        {
+            browser.FindElement(By.CssSelector("body > header > div > nav > ul > li:nth-child(7) > a")).Click();
+        }
+        #endregion
+
+        #region Logout
+        public void Logout()
+        {
+            //Click the Logout Button
+            browser.FindElement(By.CssSelector("body > header > div > nav > ul > li:nth-child(8) > a")).Click();
+            //browser.FindElement(By.XPath("/html/body/header/div/nav/ul/li[8]/a")).Click();
+
+            //Delete Cookies
+            browser.Manage().Cookies.DeleteAllCookies();
+
+            //Quits Browser
+            browser.Quit();
+        }
+        #endregion
+
+        #region If They Exists Statement
+        public void CheckExistance()
+        {
+            //div class  :alert-danger
+            //Inner Text : Name has already been taken
+            IWebElement IsNew = browser.FindElement(By.ClassName("alert-success"));
+            //IWebElement IsAlreadyThere = browser.FindElement(By.ClassName("alert-danger"));
+            if (IsNew.Displayed)
+            {
+                Console.WriteLine("You created a new Instance! Yay!");
+
+
+                
+            }
+            else
+            {
+                //if (IsAlreadyThere.Displayed)
+                //{
+                //    Console.WriteLine("You already created this Instance. Please create another.");
+                //}
+                //else
+                //{
+                //    Console.WriteLine("You may not have created it successfully. Try again.");
+                //}
+
+                Console.WriteLine("Let's hope you made a new Instance.");
+            }
+        }
+
+        //public void IfCreated()
+        //{
+        //    //XPath      : //*[@id="content"]/div[1]
+        //    //div class  : alert-success
+        //    //Inner Text : Department successfully created.
+            
+        //    if (IsNewDept.Displayed)
+        //    {
+        //        Console.WriteLine("You created a new Department! Yay!");
+
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("You may not have created it successfully. Try again.");
+        //    }
+        //}
+        #endregion
+
+        #region
+        public void KillDept()
+        {
+            //browser.FindElement(By.CssSelector("#content > div > ul:nth-child(9) > li > div > a:nth-child(2) > span")).Click();
+            //System.Threading.Thread.Sleep(5000);
+            ////SendKeys.SendWait("{Enter}");
+            //System.Threading.Thread.Sleep(2000);
+
+            ////browser.FindElement(By.XPath("//*[@id='content']/div/ul[9]/li/div/a[2]/span")).Click();
+            ////System.Threading.Thread.Sleep(2000);
+            ////SendKeys.Send("{ENTER}");
+            ////System.Threading.Thread.Sleep(2000);
+        }
+        #endregion
+
+    }
+}
