@@ -19,9 +19,6 @@ namespace BlueSource_Selenium_Test.Tests
 {
     class AddDepartmentAction : NavBarActions
     {
-        //Can't put a class in a method, so we had to comment it out
-        //public void ClickDepartmentAction()
-        //{
             [TestFixture]
             public class AddingDepartments
             {
@@ -56,10 +53,7 @@ namespace BlueSource_Selenium_Test.Tests
                 public void CreateDepartment()
                 {
                     //Creates the Department by clicking the Create Department Button
-                    //browser.FindElement(By.Name("commit")).Click();
                     browser.FindElement(By.XPath("//*[@id='new_department']/div[6]/input")).Click();
-                    //Alternate URL To use if Commit Button Continues to Malfunction
-                    //https://bluesourcestaging.herokuapp.com/departments/new
                     
                     //Deletes the Department that was just made
                     //8/27/15 Continues to Fail Test because
@@ -74,13 +68,7 @@ namespace BlueSource_Selenium_Test.Tests
                 [Test]
                 public void AddDepartment1()
                 {
-                    //This is how to call a class from another .cs file
-                    //Type the name of the CLASS you're looking for
-                    //Then type the name you're going to use here
-                    //set it equal to a new instance of that CLASS
-                    //This is known as instantiating an object (THEY USED TO BE HERE; I MOVED THEM)\
                     System.Threading.Thread.Sleep(3000);
-                    //browser.FindElement(By.CssSelector("#content > a")).Click();
                     browser.FindElement(By.XPath("//*[@id='content']/a")).Click();
                     System.Threading.Thread.Sleep(2000);
                     browser.FindElement(By.Name("department[name]")).Click();
